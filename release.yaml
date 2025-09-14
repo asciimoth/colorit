@@ -1,0 +1,7 @@
+PROJECT_NAME: colorit
+MAINTAINER: ASCII Moth <ascii@moth.contact>
+
+secrets:
+  GITHUB_TOKEN: pass:web/github.com:token_WritePackagesForGoreleaser2
+  TELEGRAM_TOKEN: pass:telegram/bots/moth_releasing
+

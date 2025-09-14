@@ -1,0 +1,21 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+# The lines below are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/need to use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+release:
+  # What to do with the release notes in case there the release already exists.
+  mode: replace
+
+announce:
+  # Requires TELEGRAM_TOKEN env var
+  telegram:
+    enabled: true
+    chat_id: -1002950691807
+    message_template: '[{{ mdv2escape .ProjectName }} {{ mdv2escape .Tag }}]({{ mdv2escape .ReleaseURL }}) is out{{ mdv2escape "!" }}'
+
