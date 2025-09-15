@@ -56,7 +56,6 @@ function check-tools() {
     "go"
     "golangci-lint"
     "govulncheck"
-    "gomod2nix"
     "goreleaser"
     "git"
     "git-cliff"
