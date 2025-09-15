@@ -231,9 +231,6 @@ function bump() {
 
   echo "Bumping to $NEW_VERSION"
 
-  # Save with stripping leading v
-  echo "${NEW_VERSION#v}" > VERSION
-
   echo "$CHANGELOG" > CHANGELOG.md
 
   commit "bump: bump to $NEW_VERSION"
