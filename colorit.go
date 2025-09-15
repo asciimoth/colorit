@@ -2,8 +2,22 @@
 package colorit
 
 import (
+	"os/exec"
 	"strings"
 )
+
+// runWithStdin runs the command `name` with `args`, writes `input` to stdin,
+// and returns the command's stdout as a string.
+// If the command fails or returns a non-zero exit code, it returns "".
+func runWithStdin(input, name string, args ...string) string {
+	cmd := exec.Command(name, args...) //nolint:noctx
+	cmd.Stdin = strings.NewReader(input)
+	out, err := cmd.Output()
+	if err != nil {
+		return ""
+	}
+	return string(out)
+}
 
 // Highlighter implementation provides logic for syntax highlighting with
 // ANSI Escape codes.
