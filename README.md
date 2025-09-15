@@ -1,4 +1,6 @@
 # colorit
+[![asciicast](https://asciinema.org/a/740664.svg)](https://asciinema.org/a/740664)
+
 A minimal go library for syntax highliting.
 
 ## License

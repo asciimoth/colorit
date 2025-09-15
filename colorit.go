@@ -1,4 +1,4 @@
-// Package colorit ... TODO: pckg comment
+// Package colorit implements syntax highlighting for text using external cli tools.
 package colorit
 
 import (
@@ -48,11 +48,11 @@ func FilterHighliters(filter string, src []Highlighter) []Highlighter {
 	}
 	filtered := make([]Highlighter, 0, len(src))
 	for _, f := range filters {
-		if f == "" {
+		if f == "" && filter != "" {
 			continue
 		}
 		for _, prov := range src {
-			if prov.Name() == f {
+			if prov.Name() == f || filter == "" {
 				filtered = append(filtered, prov)
 				continue
 			}
