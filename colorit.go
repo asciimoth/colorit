@@ -2,6 +2,7 @@
 package colorit
 
 import (
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -31,6 +32,7 @@ type Highlighter interface {
 
 // FilterHighliters filters and reorders highliters against filter string
 // that contains names of highlighters separated by ";": "a;b;c".
+// If filter string is "", returns all highlighters from src.
 // It returns new slice.
 func FilterHighliters(filter string, src []Highlighter) []Highlighter {
 	filter = strings.ToLower(strings.TrimSpace(filter))
@@ -75,4 +77,23 @@ func Highlight(text, syntax string, highlighters []Highlighter) string {
 		return result
 	}
 	return text
+}
+
+var defaultHighlighters = []Highlighter{
+	BatHighlighter{},
+	PygmentsHighlighter{},
+	RichHighlighter{},
+	ChromaHighlighter{},
+}
+
+// DefaultHighlighters returns slice of all builtin highlighters filtered
+// with filter string from GO_COLORIT env var.
+func DefaultHighlighters() []Highlighter {
+	selected := os.Getenv("GO_COLORIT")
+	return FilterHighliters(selected, defaultHighlighters)
+}
+
+// HighlightStr highlights text for syntax using default highlighterss slice.
+func HighlightStr(text, syntax string) string {
+	return Highlight(text, syntax, DefaultHighlighters())
 }
