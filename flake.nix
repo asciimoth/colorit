@@ -70,6 +70,11 @@
           jq
 
           release
+
+          bat
+          chroma
+          rich-cli
+          python313Packages.pygments
         ];
       };
     });
