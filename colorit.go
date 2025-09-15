@@ -2,9 +2,12 @@
 package colorit
 
 import (
+	"io"
 	"os"
 	"os/exec"
 	"strings"
+
+	"golang.org/x/term"
 )
 
 // runWithStdin runs the command `name` with `args`, writes `input` to stdin,
@@ -93,7 +96,30 @@ func DefaultHighlighters() []Highlighter {
 	return FilterHighliters(selected, defaultHighlighters)
 }
 
-// HighlightStr highlights text for syntax using default highlighterss slice.
+// HighlightStr highlights text for syntax using default highlighters slice.
 func HighlightStr(text, syntax string) string {
 	return Highlight(text, syntax, DefaultHighlighters())
+}
+
+// IsTTY returns true if w refers to a terminal (tty).
+func isTTY(w io.Writer) bool {
+	if w == nil {
+		return false
+	}
+	// any type that exposes Fd() uintptr (os.File and many file-like types)
+	type fdWriter interface{ Fd() uintptr }
+	if fw, ok := w.(fdWriter); ok {
+		return term.IsTerminal(int(fw.Fd()))
+	}
+	return false
+}
+
+// HighlightTo highlights text for syntax using default highlighters slice
+// and writes it to out if out is a TTY else writes original text.
+func HighlightTo(text, syntax string, out io.Writer) error {
+	if isTTY(out) {
+		text = HighlightStr(text, syntax)
+	}
+	_, err := io.WriteString(out, text)
+	return err //nolint:wrapcheck
 }
