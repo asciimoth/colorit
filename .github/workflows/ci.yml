@@ -34,17 +34,7 @@ jobs:
         uses: cachix/install-nix-action@v25
         with:
           nix_path: nixpkgs=channel:nixos-unstable
-      - run: nix develop --command go test -v -coverprofile=profile.cov ./...
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25'
-      - name: Install goveralls
-        run: go install github.com/mattn/goveralls@latest
-      - name: Send coverage
-        env:
-          COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
-        run: goveralls -coverprofile=profile.cov -service=github
+      - run: nix develop --command go test -v ./...
   lint:
     name: Golangcli-lint
     runs-on: ubuntu-latest
